@@ -74,7 +74,7 @@ void TrafficLight::cycleThroughPhases()
             _currentPhase = (_currentPhase == TrafficLightPhase::green) ? TrafficLightPhase::red : TrafficLightPhase::green;
 
             // TODO  sends an update method to the message queue using move semantics
-
+            // _msgQ_TrLightPh.send(std::move(_currentPhase));
             start_time = std::chrono::high_resolution_clock::now();
             randomNumber = dist(gen);
         }
