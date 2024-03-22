@@ -60,6 +60,8 @@ void Graphics::drawTrafficObjects()
             int r = sqrt(255*255 - g*g - b*b); // ensure that length of color vector is always 255
             cv::Scalar vehicleColor = cv::Scalar(b,g,r);
             cv::circle(_images.at(1), cv::Point2d(posx, posy), 50, vehicleColor, -1);
+            
+            // cv::putText(_images.at(1),"ID",cv::Point(posx, posy),cv::FONT_HERSHEY_PLAIN,2.0, CV_RGB(255, 185, 0),1 );
         }
     }
 

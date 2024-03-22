@@ -28,7 +28,8 @@ void MessageQueue<T>::send(T &&msg)
     std::this_thread::sleep_for(std::chrono::milliseconds(2));
     std::lock_guard<std::mutex> uLock(_mutex);
     _queue.push_back(msg);
-    _cond.notify_one();
+    // _cond.notify_one();
+    _cond.notify_all();
 }
 
 /* Implementation of class "TrafficLight" */
@@ -44,10 +45,13 @@ void TrafficLight::waitForGreen()
     // FP.5b : add the implementation of the method waitForGreen, in which an infinite while-loop
     // runs and repeatedly calls the receive function on the message queue.
     // Once it receives TrafficLightPhase::green, the method returns.
-    while(true)
+    while (true)
     {
         TrafficLightPhase currentPhase = _msgQ_TrLightPh.receive();
-        if (currentPhase==TrafficLightPhase::green) {return;} 
+        if (currentPhase == TrafficLightPhase::green)
+        {
+            break;
+        }
     }
 }
 
@@ -90,7 +94,7 @@ void TrafficLight::cycleThroughPhases()
 
             // TODO  сcheck sends an update method to the message queue using move semantics
             TrafficLightPhase currentPhase = _currentPhase;
-            _msgQ_TrLightPh.send(std::move(currentPhase));
+            _msgQ_TrLightPh.send(std::move(_currentPhase));
             start_time = std::chrono::high_resolution_clock::now();
             randomNumber = dist(gen);
         }
